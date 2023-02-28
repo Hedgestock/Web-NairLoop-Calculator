@@ -1,0 +1,12 @@
+{
+  "tasks": {
+    "serve": "deno run --allow-net --allow-read server/index.ts",
+
+    "build": "deno task template; deno task transpile;",
+
+    "transpile": "deno run --allow-read --allow-env --allow-run tasks/transpile.ts",
+    "template": "deno run --allow-read --allow-write --allow-env tasks/template.ts",
+
+    "clean": "deno run --allow-write tasks/clean.ts"
+  }
+}
