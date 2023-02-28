@@ -2,7 +2,7 @@ export class Plotter {
     private _canvas: HTMLCanvasElement;
     private _context;
     private _unit;
-    private _points;
+    private _points: IPoint[];
 
     constructor(canvas: HTMLCanvasElement, _unit?: number) {
         this._canvas = canvas;
@@ -30,12 +30,10 @@ export class Plotter {
         //this._context.strokeStyle = "#" + Math.floor(Math.random() * 16777215).toString(16);
         this._context.strokeStyle = "black";
         this._points.forEach((point) => {
-            console.log(point)
 
             this._context.lineTo(point.x * this._unit, point.y * this._unit);
             this._context.closePath();
             this._context.stroke();
-            console.log("line to", point.x * this._unit, point.y * this._unit)
 
 
             if (point.color) {
@@ -54,14 +52,12 @@ export class Plotter {
             
             this._context.beginPath();
             this._context.moveTo(point.x * this._unit, point.y * this._unit);
-            console.log("move to", point.x * this._unit, point.y * this._unit)
         });
     }
 
 
     draw(points) {
         console.debug("Drawing");
-        console.log(points);
         this._points = points;
         // this.drawRaw(points);
         this.adaptResolution();
@@ -82,5 +78,7 @@ export class Plotter {
 
         this.drawRaw();
     }
+
+    
 }
 

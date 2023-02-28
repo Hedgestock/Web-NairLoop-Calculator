@@ -1,4 +1,4 @@
-import { Plotter } from "./plotting-engine";
+import { Plotter } from "./plotting-engine/plotter";
 
 let p = [
   { x: 1, y: 1 },
@@ -13,20 +13,20 @@ const canvas = document.getElementById("plotting-canvas") as HTMLCanvasElement;
 
 const plottingEngine = new Plotter(canvas);
 
-canvas.onclick = (e) => {
+let selected;
+
+canvas.onmousedown = (e) => {
   var rect = canvas.getBoundingClientRect(); // abs. size of element
   // translate position of the mouse to canva units
   const mousePosition = { x: (e.clientX - rect.left) / plottingEngine.unit, y: (e.clientY - rect.bottom) / -plottingEngine.unit }
 
   const boxRadius = 1 / 4;
 
-  console.log()
-  const selected = p.find(point => {
+  selected = p.find(point => {
     console.log()
-    return (point.x > mousePosition.x - boxRadius && point.x < mousePosition.x  + boxRadius)
+    return (point.x > mousePosition.x - boxRadius && point.x < mousePosition.x + boxRadius)
       && (point.y > mousePosition.y - boxRadius && point.y < mousePosition.y + boxRadius)
   })
-
 
   if (selected) {
     selected.color = "red";
@@ -37,6 +37,34 @@ canvas.onclick = (e) => {
     p.push(snappedMousePosition)
   }
   plottingEngine.draw(p);
+}
+
+
+canvas.onmousemove = (e) => {
+  if (selected) {
+    console.log("mouve")
+    var rect = canvas.getBoundingClientRect(); // abs. size of element
+    // translate position of the mouse to canva units
+    const mousePosition = { x: (e.clientX - rect.left) / plottingEngine.unit, y: (e.clientY - rect.bottom) / -plottingEngine.unit }
+    const snappedMousePosition = { x: Math.round(mousePosition.x), y: Math.round(mousePosition.y) }
+
+    selected.x = snappedMousePosition.x;
+    selected.y = snappedMousePosition.y;
+    plottingEngine.draw(p);
+  }
+}
+
+canvas.onmouseup = (e) => {
+  var rect = canvas.getBoundingClientRect(); // abs. size of element
+  // translate position of the mouse to canva units
+  const mousePosition = { x: (e.clientX - rect.left) / plottingEngine.unit, y: (e.clientY - rect.bottom) / -plottingEngine.unit }
+
+
+  if (selected) {
+    selected.color = "black";
+    selected = null;
+    plottingEngine.draw(p);
+  } 
 }
 
 plottingEngine.draw(p);
