@@ -1,7 +1,7 @@
 import * as path from "https://deno.land/std/path/mod.ts";
 
-const server = Deno.listen({ port: 8080 });
-console.log(`HTTP webserver running.  Access it at:  http://localhost:8080/`);
+const server = Deno.listen({ port: 8098 });
+console.log(`HTTP webserver running.  Access it at:  http://localhost:8098/`);
 
 const config = {
   htmlFolder: "html",
